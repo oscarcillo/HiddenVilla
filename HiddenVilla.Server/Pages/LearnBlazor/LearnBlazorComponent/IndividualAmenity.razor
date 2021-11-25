@@ -3,7 +3,7 @@
 <div class="bg-light border p-2 col-5 m-4" @onclick="RoomCheckBoxSelectionChanged">
     <h4 class="text-secondary">Amenities - @Amenity.Id</h4> <br>
     @Amenity.Name <br>
-    @Amenity.Description <br>
+    @Amenity.Description <br> @FirstFragment @SecondFragment
 </div>
 
 @code {
@@ -13,6 +13,12 @@
     
     [Parameter]
     public EventCallback<BlazorAmenity> OnAmenitySelection {get; set;}
+
+    [Parameter]
+    public RenderFragment FirstFragment {get; set;}
+
+    [Parameter]
+    public RenderFragment SecondFragment {get; set;}
     
     protected async Task RoomCheckBoxSelectionChanged()
     {
