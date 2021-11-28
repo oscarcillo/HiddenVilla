@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HiddenVilla.Application\HiddenVilla.Application.csproj" />
+    <ProjectReference Include="..\HiddenVilla.Domain\HiddenVilla.Domain.csproj" />
     <ProjectReference Include="..\HiddenVilla.Persistence\HiddenVilla.Persistence.csproj" />
   </ItemGroup>
 
