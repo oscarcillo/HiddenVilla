@@ -4,12 +4,17 @@
 <h3>BlazorJs</h3>
 
 <div>
-    <button class="btn btn-secondary" @onclick="TestConfirmBox">Test Confirm Button</button>
+    <button class="btn btn-secondary" @onclick="() => TestConfirmBox(ConfirmMessage)">Test Confirm Button</button>
 </div>
 
-<div>
+<div class="mt-2">
     <button class="btn btn-success" @onclick="TestSuccess">Test Toastr Success</button>
     <button class="btn btn-danger" @onclick="TestFailure">Test Toastr Failure</button>
+</div>
+
+<div class="mt-2">
+    <button class="btn btn-success" @onclick="TestSuccessSwal">Test Swal Success</button>
+    <button class="btn btn-danger" @onclick="TestFailureSwal">Test Swal Failure</button>
 </div>
 
 @if (ConfirmResult)
@@ -26,19 +31,12 @@ else
     
     private bool ConfirmResult { get; set; }
     
-    private async Task TestConfirmBox()
-    {
-        ConfirmResult = await JsRuntime.InvokeAsync<bool>("confirm", ConfirmMessage);
-    }
-
-    private async Task TestSuccess()
-    {
-        await JsRuntime.InvokeVoidAsync("ShowToastr", "success", "Success Message");
-    }
-
-    private async Task TestFailure()
-    {
-        await JsRuntime.InvokeVoidAsync("ShowToastr", "error", "Error Message");
-    }
-
+    private async Task TestConfirmBox(string message) 
+        => ConfirmResult = await JsRuntime.InvokeAsync<bool>("confirm", message);
+    
+    private async Task TestSuccess() => await JsRuntime.ToastrSuccess("Success Message");
+    private async Task TestFailure() => await JsRuntime.ToastrFailure("Failure Message");
+    
+    private async Task TestSuccessSwal() => await JsRuntime.SwalSuccess("Success Swal Message");
+    private async Task TestFailureSwal() => await JsRuntime.SwalFailure("Error Swal Message");
 }

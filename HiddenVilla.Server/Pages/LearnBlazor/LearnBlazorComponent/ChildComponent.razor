@@ -1,3 +1,5 @@
+@inject IJSRuntime _jsRuntime
+
 <div>
     <div class="alert alert-info">@Title</div>
     <div class="alert alert-success">
@@ -35,4 +37,7 @@
 
     [Parameter]
     public EventCallback<MouseEventArgs> OnClickBtnMethod {get; set;}
+
+    public async Task ShowToastrSuccess() => await _jsRuntime.ToastrSuccess("Wohoo! Exito!");
+
 }

@@ -61,15 +61,20 @@ namespace HiddenVilla.Application.Repository
             }
         }
 
-        public async Task<HotelRoomDto> IsUnique(string name)
+        public async Task<HotelRoomDto> IsUnique(string name, int id = 0)
         {
             try
             {
-                 return _mapper.Map<HotelRoom, 
+                if (id == 0)
+                    return _mapper.Map<HotelRoom, 
+                        HotelRoomDto>(await _context.HotelRooms
+                        .FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()));
+                
+                return _mapper.Map<HotelRoom, 
                     HotelRoomDto>(await _context.HotelRooms
-                    .FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()));
+                    .FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower() && x.Id != id));
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }

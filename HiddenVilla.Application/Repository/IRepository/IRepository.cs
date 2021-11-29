@@ -10,7 +10,7 @@ namespace HiddenVilla.Application.Repository.IRepository
          public Task<TDto> Update(int id, TDto itemDto);
          public Task<TDto> Get(int id);
          public Task<IEnumerable<TDto>> GetAll();
-         public Task<TDto> IsUnique(string name);
+         public Task<TDto> IsUnique(string name, int id = 0);
          public Task<int> Delete(int id);
     }
 }

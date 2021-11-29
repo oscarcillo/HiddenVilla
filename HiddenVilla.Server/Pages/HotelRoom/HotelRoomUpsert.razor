@@ -1,12 +1,13 @@
 ﻿@page "/hotel-room/create"
-@page "/hotel-room/update"
+@page "/hotel-room/edit/{Id:int}"
 @using Domain
 @using Application.Repository.IRepository
 @inject IRepository<HotelRoomDto> _hotelRoomRepository
 @inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
 
 <div class="row t-2 mb-5">
-    <h3 class="card-title text-info mb-3 ml-3">Create Hotel Room</h3>
+    <h3 class="card-title text-info mb-3 ml-3">@Title Hotel Room</h3>
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -49,14 +50,46 @@
 </div>
 
 @code {
-    private HotelRoomDto HotelRoomModel { get; } = new ();
-    private string Title { get; } = "Create";
+    
+    private HotelRoomDto HotelRoomModel { get; set; } = new ();
+    private string Title { get; set; } = "Create";
+    
+    [Parameter]
+    public int? Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            Title = "Update";
+            HotelRoomModel = await _hotelRoomRepository.Get(Id.Value);
+        }
+        else HotelRoomModel = new HotelRoomDto();
+    }
 
     private async Task HandleHotelRoomUpsert()
     {
-        if (await _hotelRoomRepository.IsUnique(HotelRoomModel.Name) != null) return;
+        try
+        {
+            if (await _hotelRoomRepository.IsUnique(HotelRoomModel.Name, HotelRoomModel.Id) != null)
+            {
+                await _jsRuntime.ToastrFailure("Room name already exists");
+                return;
+            }
+            
+            if (HotelRoomModel.Id != 0)
+                await _hotelRoomRepository.Update(HotelRoomModel.Id, HotelRoomModel);
+            else
+                await _hotelRoomRepository.Create(HotelRoomModel);
 
-        await _hotelRoomRepository.Create(HotelRoomModel);
-        _navigationManager.NavigateTo("hotel-room");
+            await _jsRuntime.ToastrSuccess($"Hotel Room {Title}d Successfully");
+
+            _navigationManager.NavigateTo("hotel-room");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }
