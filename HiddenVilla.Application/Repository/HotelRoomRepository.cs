@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HiddenVilla.Application.Repository
 {
-    public class HotelRoomRepository : IRepository<HotelRoomDto>
+    public class HotelRoomRepository : IHotelRoomRepository<HotelRoomDto>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -42,7 +42,7 @@ namespace HiddenVilla.Application.Repository
                     HotelRoomDto>(await _context.HotelRooms
                     .FirstOrDefaultAsync(x => x.Id == id));
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -55,7 +55,7 @@ namespace HiddenVilla.Application.Repository
                  return _mapper.Map<IEnumerable<HotelRoom>, 
                     IEnumerable<HotelRoomDto>>(_context.HotelRooms);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -87,19 +87,17 @@ namespace HiddenVilla.Application.Repository
                 if(id == hotelRoomDto.Id)
                 {
                     var roomDetails = await _context.HotelRooms.FindAsync(id);
-                    var room = _mapper.Map<HotelRoomDto, HotelRoom>(hotelRoomDto, roomDetails);
+                    var room = _mapper.Map(hotelRoomDto, roomDetails);
                     room.UpdatedBy = "";
                     room.UpdatedDate = DateTime.Now;
                     var updatedRoom = _context.HotelRooms.Update(room);
                     await _context.SaveChangesAsync();
                     return _mapper.Map<HotelRoom, HotelRoomDto>(updatedRoom.Entity);
                 }
-                else
-                {
-                    return null;
-                }  
+                
+                return null;
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }

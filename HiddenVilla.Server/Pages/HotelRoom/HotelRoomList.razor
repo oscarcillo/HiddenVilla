@@ -1,7 +1,7 @@
 ﻿@page "/hotel-room"
 @using Domain
 @using Application.Repository.IRepository
-@inject IRepository<HotelRoomDto> _hotelRoomRepository
+@inject IHotelRoomRepository<HotelRoomDto> _hotelRoomHotelRoomRepository
 @inject NavigationManager _navigationManager
 
 <div class="row mt-4">
@@ -55,5 +55,5 @@
 @code {
     private IEnumerable<HotelRoomDto> HotelRooms { get; set; } = new List<HotelRoomDto>();
     
-    protected override async Task OnInitializedAsync() => HotelRooms = await _hotelRoomRepository.GetAll();
+    protected override async Task OnInitializedAsync() => HotelRooms = await _hotelRoomHotelRoomRepository.GetAll();
 }

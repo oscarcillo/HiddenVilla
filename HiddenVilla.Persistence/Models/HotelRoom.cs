@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HiddenVilla.Persistence.Models
@@ -19,5 +21,6 @@ namespace HiddenVilla.Persistence.Models
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public string UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public virtual ICollection<HotelRoomImage> HotelRoomImages { get; set; }
     }
 }

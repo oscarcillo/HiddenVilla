@@ -8,8 +8,9 @@ namespace HiddenVilla.Application.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<HotelRoomDto, HotelRoom>();
-            CreateMap<HotelRoom, HotelRoomDto>();
+            CreateMap<HotelRoomDto, HotelRoom>().ReverseMap();
+
+            CreateMap<HotelRoomImageDto, HotelRoomImage>().ReverseMap();
         }
     }
 }

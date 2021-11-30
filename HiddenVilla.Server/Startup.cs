@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using HiddenVilla.Application.Repository;
 using HiddenVilla.Application.Repository.IRepository;
 using HiddenVilla.Domain;
+using HiddenVilla.Server.Service;
+using HiddenVilla.Server.Service.IService;
 
 namespace HiddenVilla.Server
 {
@@ -36,7 +38,9 @@ namespace HiddenVilla.Server
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.AddScoped<IRepository<HotelRoomDto>, HotelRoomRepository>();
+            services.AddScoped<IHotelRoomRepository<HotelRoomDto>, HotelRoomRepository>();
+            services.AddScoped<IHotelRoomImageRepository<HotelRoomImageDto>, HotelRoomImageRepository>();
+            services.AddScoped<IFileUpload, FileUpload>();
             
             services.AddRazorPages();
             services.AddServerSideBlazor();

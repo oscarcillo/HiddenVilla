@@ -4,7 +4,7 @@ using HiddenVilla.Domain;
 
 namespace HiddenVilla.Application.Repository.IRepository
 {
-    public interface IRepository<TDto> where TDto: class
+    public interface IHotelRoomRepository<TDto> where TDto: class
     {
          public Task<TDto> Create(TDto itemDto);
          public Task<TDto> Update(int id, TDto itemDto);

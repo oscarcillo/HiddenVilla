@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HiddenVilla.Domain
@@ -13,5 +15,7 @@ namespace HiddenVilla.Domain
         public double RegularRate { get; set; }
         public string Details { get; set; }
         public string SqFt { get; set; }
+        public virtual ICollection<HotelRoomImageDto> HotelRoomImages { get; set; }
+        public List<string> ImageUrls { get; set; }
     }
 }
